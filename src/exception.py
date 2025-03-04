@@ -1,5 +1,5 @@
 import sys # because it will have track record of all exception being raised
-import logging
+from src.logger import logging
 
 def error_message_detail(error,error_detail:sys):
     _,_,exc_tb=error_detail.exc_info()   ##will return only path and line on which the exception occured discarding 2 other outputs.
@@ -20,4 +20,4 @@ class CustomException(Exception):
 
 
 
-    
+     
