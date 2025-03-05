@@ -40,7 +40,7 @@ class ModelTrainer:
 
             logging.info("Creating dictionary of all models !!!")
             models={
-                "Random_Forest":RandomForestRegressor(),
+                "Random Forest":RandomForestRegressor(),
                 "Decision Tree":DecisionTreeRegressor(),
                 "Linear Regression":LinearRegression(),
                 "K-Neighbours":KNeighborsRegressor(),
@@ -49,9 +49,50 @@ class ModelTrainer:
                 "AdaBoost Regressor":AdaBoostRegressor()
             }
             logging.info("Created dictionary of all models !!!")
+            logging.info("Hyper parameter tuning initiated !!!")
 
+            params={
+                "Random Forest":{
+                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                
+                    # 'max_features':['sqrt','log2',None],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson']
+                    # 'splitter':['best','random'],
+                    # 'max_features':['sqrt','log2'],
+                },
+                "Linear Regression": {},
+
+                "K-Neighbours": {
+                   'n_neighbors': [3, 5, 7],  
+                   'weights': ['uniform'],
+                   'algorithm': ['auto']
+                },
+                "xgbregressor": {
+                     'learning_rate': [ 0.1, 0.2],
+                     'n_estimators': [50, 100],
+                     'max_depth': [3, 5]
+                     #'min_child_weight': [1, 3, 5],
+                     #'gamma': [0, 0.1, 0.2, 0.3],
+                     #'subsample': [0.7, 0.8, 0.9, 1.0],
+                     #'colsample_bytree': [0.7, 0.8, 0.9, 1.0]
+                       },
+                "CatBoosting":{
+                    'depth': [6,8,10],
+                    'learning_rate': [0.1],
+                    'iterations': [30, 50]
+                },
+                "AdaBoost Regressor":{
+                    'learning_rate':[.1,.01,0.5,.001],
+                    # 'loss':['linear','square','exponential'],
+                    'n_estimators': [8,16,32,64,128,256]
+                }  
+                
+            }
             logging.info("Creating a function  for model Evaluation !!! ")
-            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models)
+            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,param=params)
 
 
             ##to get best model score from dict
